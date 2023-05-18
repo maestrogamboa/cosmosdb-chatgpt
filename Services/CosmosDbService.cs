@@ -56,6 +56,7 @@ public class CosmosDbService
             .WithParameter("@type", nameof(Session));
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
+        
 
         List<Session> output = new();
         while (response.HasMoreResults)
