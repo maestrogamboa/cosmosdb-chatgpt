@@ -52,7 +52,7 @@ public class CosmosDbService
     /// <returns>List of distinct chat session items.</returns>
     public async Task<List<Session>> GetSessionsAsync()
     {
-        QueryDefinition query = new QueryDefinition("SELECT DISTINCT * FROM c WHERE c.type = @type")
+        QueryDefinition query = new QueryDefinition("SELECT DISTINCT TOP 1 * FROM c WHERE c.type = @type")
             .WithParameter("@type", nameof(Session));
 
         FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
@@ -63,7 +63,7 @@ public class CosmosDbService
             FeedResponse<Session> results = await response.ReadNextAsync();
             output.AddRange(results);
         }
-        return output = new();
+        return output;
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class CosmosDbService
             FeedResponse<Message> response = await results.ReadNextAsync();
             output.AddRange(response);
         }
-        return output;
+        return output = new();
     }
 
     /// <summary>
