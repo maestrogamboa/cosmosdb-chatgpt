@@ -63,7 +63,7 @@ public class CosmosDbService
             FeedResponse<Session> results = await response.ReadNextAsync();
             output.AddRange(results);
         }
-        return output;
+        return output = new();
     }
 
     /// <summary>
