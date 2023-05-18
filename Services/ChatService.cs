@@ -88,7 +88,7 @@ public class ChatService
 
         _sessions[index].Name = newChatSessionName;
 
-        await _cosmosDbService.UpdateSessionAsync(_sessions[index]);
+        //await _cosmosDbService.UpdateSessionAsync(_sessions[index]);
     }
 
     /// <summary>
