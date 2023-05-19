@@ -124,7 +124,7 @@
     <div class="bg-primary text-light px-4 py-2 rounded-top-5 text-dark d-flex flex-column justify-content-center">
         <div class="input-group">
             <i class="bi bi-body-text input-group-text" aria-hidden="true"></i>
-            <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" type="text" @bind="@UserPromptSet" @onkeydown="@Enter" @oninput="@((e) => { UserPrompt=e.Value?.ToString();})" rows="6" placeholder="<Your Message>"></textarea>
+            <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" type="text" @bind="@UserPromptSet" @onkeydown="@Enter" @oninput="@((e) => { UserPrompt=e.Value?.ToString();})" rows="2" placeholder="<Your Message>"></textarea>
             <button type="button" class="btn btn-outline-secondary" @onclick="SubmitPromptAsync">
                 <i class="bi bi-send-fill" aria-hidden="true"></i>
             </button>
