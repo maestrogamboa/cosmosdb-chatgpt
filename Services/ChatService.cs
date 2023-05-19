@@ -203,7 +203,7 @@ public class ChatService
         _sessions[index].TokensUsed += completionMessage.Tokens;
 
 
-        await _cosmosDbService.UpsertSessionBatchAsync(updatedPromptMessage, completionMessage, _sessions[index]);
+        //  await _cosmosDbService.UpsertSessionBatchAsync(updatedPromptMessage, completionMessage, _sessions[index]);
         
     }
 }
