@@ -67,6 +67,7 @@ public class OpenAiService
     {
         
         ChatMessage systemMessage = new(ChatRole.System, _systemPrompt);
+<<<<<<< HEAD
 
         /// removes \r\n from the input string so that entire message is read as a single input.
         userPrompt = userPrompt.Replace("\r\n", string.Empty);
@@ -75,6 +76,10 @@ public class OpenAiService
 
 
 
+=======
+        ChatMessage userMessage = new(ChatRole.User, userPrompt);
+        
+>>>>>>> main
         ChatCompletionsOptions options = new()
         {
             
@@ -113,7 +118,10 @@ public class OpenAiService
     {
         
         ChatMessage systemMessage = new(ChatRole.System, _summarizePrompt);
+<<<<<<< HEAD
         userPrompt = userPrompt.Replace("\r\n", string.Empty);
+=======
+>>>>>>> main
         ChatMessage userMessage = new(ChatRole.User, userPrompt);
         
         ChatCompletionsOptions options = new()
@@ -138,4 +146,8 @@ public class OpenAiService
 
         return summary;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main
