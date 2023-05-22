@@ -218,7 +218,7 @@
         {
             string newSessionName;
             newSessionName = await chatService.SummarizeChatSessionNameAsync(CurrentSession?.SessionId, String.Join(Environment.NewLine, _messagesInChat.Select(m => m.Text)));
-            newSessionName = String.Empty;
+            //newSessionName = String.Empty;
 
             if (CurrentSession is not null)
             {
