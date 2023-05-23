@@ -1,6 +1,7 @@
 ﻿@using Cosmos.Chat.GPT.Constants
 @using Cosmos.Chat.GPT.Services
 @using Humanizer
+@using System.Text.RegularExpressions;
 @inject ChatService chatService
 @inject IJSRuntime JSRuntime
 
@@ -19,7 +20,7 @@
             </div>
         </div>
     } 
-    <h6 class="px-4 display-6 text-secondary p-2">@GetChatSessionName()</h6>
+   <h6 class="px-4 display-6 text-secondary p-2">@GetChatSessionName()</h6>
     <div class="px-4 pb-4 pt-2 flex-grow-1 overflow-y-auto overflow-x-hidden align-items-stretch" id="MessagesInChatdiv">
         @if (CurrentSession is null)
         {
@@ -100,7 +101,18 @@
                                 <div class="toast-body">
                                     <i class="bi bi-grip-vertical mr-2 text-black-50"></i>
                                     @{
-                                        MarkupString html = new MarkupString(msg.Text.Replace("\n", "<br />"));
+                                        var text = msg.Text.Replace("\n", "<br />");
+                                        Regex rgx = new Regex("```");
+                                        var matches = rgx.Matches(text);
+                                        if(matches.Count() > 0)
+                                            for(int i = 0; i < matches.Count; i++)
+                                                if(i % 2 == 0)
+                                                    // even = start code block tag
+                                                    text = rgx.Replace(text, "<pre><code>", 1, i);
+                                                else
+                                                    // odd = end code block tag
+                                                    text = rgx.Replace(text, "</pre></code>", 1, i);
+                                        MarkupString html = new MarkupString(text);
                                     }
                                     @html
                                 </div>
@@ -112,13 +124,16 @@
         }            			
 	</div>
     <div class="bg-primary text-light px-4 py-2 rounded-top-5 text-dark d-flex flex-column justify-content-center">
-        <div class="input-group">
-            <i class="bi bi-body-text input-group-text" aria-hidden="true"></i>
-            <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" type="text" @bind="@UserPromptSet" @onkeydown="@Enter" @oninput="@((e) => { UserPrompt=e.Value?.ToString();})" rows="2" placeholder="<Your Message>"></textarea>
-            <button type="button" class="btn btn-outline-secondary" @onclick="SubmitPromptAsync">
-                <i class="bi bi-send-fill" aria-hidden="true"></i>
-            </button>
-        </div>
+        @if (CurrentSession is not null && CurrentSession?.SessionId != Interface.EMPTY_SESSION)
+        {
+            <div class="input-group">
+                <i class="bi bi-body-text input-group-text" aria-hidden="true"></i>
+                <textarea class="form-control form-control-sm" type="text" value="@UserPrompt"  @onkeydown="@Enter"  @oninput="@((e) => { UserPrompt=e.Value?.ToString();})" rows="1" placeholder="<Your Message>"></textarea>
+                <button type="button" class="btn btn-outline-secondary" @onclick="SubmitPromptAsync">
+                    <i class="bi bi-send-fill" aria-hidden="true"></i>
+                </button>
+            </div>
+        }
     </div>			
 </div>
 
@@ -191,15 +206,44 @@
     {
         CurrentSession = session;
     }
+    
+//    private async Task HandleInput(ChangeEventArgs e)
+//    {
+//        UserPrompt = e.Value?.ToString();
 
-    public async Task Enter(KeyboardEventArgs e)
+//    }
+   private async Task Enter(KeyboardEventArgs e)
     {
-        if (e.Code == "Enter" && !e.ShiftKey)
-        {
+        if (e.Key == "Enter" && !e.ShiftKey)
+        {  
+            
             await SubmitPromptAsync();
+ //           UserPromptSet = string.Empty; // Set the value to empty
+            await ClearInput();
+            
+             
+            
+            
         }
     }
+    private async Task ClearInput()
+    {
+        
+        UserPrompt = ""; // Clear the input property (assuming it's a string property)
+      //  StateHasChanged();
+      //  await Task.Delay(0.2);
+        await JSRuntime.InvokeVoidAsync("eval", "document.querySelector('.form-control').value = '';");
+    }
 
+ 
+ //   public async Task Enter(KeyboardEventArgs e)
+ //   {
+ //       if (e.Code == "Enter" || e.Code == "NumpadEnter")
+ //       {
+//            await SubmitPromptAsync();
+ //       }
+ //   }
+//
     private async Task SubmitPromptAsync()
     {
         if (CurrentSession?.SessionId == Interface.EMPTY_SESSION || UserPrompt == String.Empty || UserPrompt is null)
@@ -207,18 +251,20 @@
             return;
         }
 
-        if (UserPrompt != String.Empty)
-        {           
-            UserPromptSet = String.Empty;
-        }
-
         await chatService.GetChatCompletionAsync(CurrentSession?.SessionId, UserPrompt);
-
+//        if (UserPrompt != String.Empty)
+//        {           
+//            UserPromptSet = String.Empty;
+//            Console.WriteLine(UserPrompt);
+//            if (string.IsNullOrEmpty(UserPromptSet))
+//                    {
+//                        Console.WriteLine("The string is empty.");
+//                    }
+//        }
         if(_messagesInChat?.Count == 2)
         {
             string newSessionName;
             newSessionName = await chatService.SummarizeChatSessionNameAsync(CurrentSession?.SessionId, String.Join(Environment.NewLine, _messagesInChat.Select(m => m.Text)));
-            //newSessionName = String.Empty;
 
             if (CurrentSession is not null)
             {
@@ -254,4 +300,8 @@
     {
         await JSRuntime.InvokeAsync<bool>("scrollToLastMessage");
     }
+
+ //   private string UserPromptSet { get; set; }
+
+
 }
