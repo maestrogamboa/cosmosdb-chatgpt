@@ -2,12 +2,11 @@
 
 <PageTitle>Intermountain GPT</PageTitle>
 <main class="h-100 d-flex flex-row justify-content-start">
-    @if (!IsNavMenuCollapsed)
-    {
-        <NavMenu @ref="@NavMenu" OnChatClicked="LoadChatEventHandlerAsync" OnNavBarVisibilityUpdated="UpdateNavBarVisibility" />
-    }
+ 
+        <NavMenu @ref="@NavMenu" OnChatClicked="LoadChatEventHandlerAsync"  />
+    
     <section class="flex-grow-1">
-        <ChatPane @ref="@ChatPane" CurrentSession="@CurrentSession" OnChatUpdated="ForceRefreshAsync" OnNavBarVisibilityUpdated="UpdateNavBarVisibility" ShowHeader="@IsNavMenuCollapsed" />
+        <ChatPane @ref="@ChatPane" CurrentSession="@CurrentSession" OnChatUpdated="ForceRefreshAsync" />
     </section>
 </main>
 
@@ -20,11 +19,6 @@
     private ChatPane? ChatPane = default;
     private NavMenu? NavMenu = default;
     private bool IsNavMenuCollapsed { get; set; }
-
-    private void UpdateNavBarVisibility()
-    {
-        IsNavMenuCollapsed = !IsNavMenuCollapsed;
-    }
 
     protected override void OnInitialized()
     {
