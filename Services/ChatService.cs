@@ -177,7 +177,7 @@ public class ChatService
 
         _sessions[index].AddMessage(promptMessage);
 
-        return await _cosmosDbService.InsertMessageAsync(promptMessage);
+        return promptMessage; //await _cosmosDbService.InsertMessageAsync(promptMessage);
     }
 
     /// <summary>

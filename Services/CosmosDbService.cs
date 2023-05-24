@@ -67,7 +67,7 @@ public class CosmosDbService
             Type = nameof(Session),
             SessionId = "000101010",
             TokensUsed = 0,
-            Name = "New Chat testing",
+            Name = "New Chat",
             Messages = new List<Message>()
         };
         output.Add(defaultSession);
