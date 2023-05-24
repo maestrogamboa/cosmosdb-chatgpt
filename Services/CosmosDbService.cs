@@ -52,18 +52,32 @@ public class CosmosDbService
     /// <returns>List of distinct chat session items.</returns>
     public async Task<List<Session>> GetSessionsAsync()
     {
-        QueryDefinition query = new QueryDefinition("SELECT DISTINCT TOP 1 * FROM c WHERE c.type = @type")
-            .WithParameter("@type", nameof(Session));
+        //QueryDefinition query = new QueryDefinition("SELECT DISTINCT TOP 1 * FROM c WHERE c.type = @type")
+            //.WithParameter("@type", nameof(Session));
 
-        FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
-        
+        //FeedIterator<Session> response = _container.GetItemQueryIterator<Session>(query);
+        //System.Diagnostics.Debug.WriteLine("results1-------------------------------------" + response.ToString());
+       
+
 
         List<Session> output = new();
-        while (response.HasMoreResults)
+        Session defaultSession = new Session
         {
-            FeedResponse<Session> results = await response.ReadNextAsync();
-            output.AddRange(results);
-        }
+            Id = Guid.NewGuid().ToString(),
+            Type = nameof(Session),
+            SessionId = "000101010",
+            TokensUsed = 0,
+            Name = "New Chat testing",
+            Messages = new List<Message>()
+        };
+        output.Add(defaultSession);
+        //while (response.HasMoreResults)
+        //{
+           // FeedResponse<Session> results = await response.ReadNextAsync();
+            //Console.WriteLine("----------------------------------------------------" + results.ToString());
+            //System.Diagnostics.Debug.WriteLine("results2-------------------------------------" + results.ToString());
+            //output.AddRange(results);
+        //}
         return output;
     }
 
