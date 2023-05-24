@@ -50,7 +50,7 @@ public class ChatService
         if (_sessions[index].Messages.Count == 0)
         {
             // Messages are not cached, go read from database
-            chatMessages = await _cosmosDbService.GetSessionMessagesAsync(sessionId);
+            //chatMessages = await _cosmosDbService.GetSessionMessagesAsync(sessionId);
 
             // Cache results
             _sessions[index].Messages = chatMessages;
