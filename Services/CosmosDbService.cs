@@ -65,7 +65,7 @@ public class CosmosDbService
         {
             Id = Guid.NewGuid().ToString(),
             Type = nameof(Session),
-            SessionId = "000101010",
+            SessionId = Guid.NewGuid().ToString(),
             TokensUsed = 0,
             Name = "New Chat",
             Messages = new List<Message>()
