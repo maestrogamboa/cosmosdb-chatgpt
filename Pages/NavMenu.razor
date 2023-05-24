@@ -116,14 +116,16 @@
 
     private static event EventHandler<string>? OnNavMenuChanged;
 
-    async private Task ChangeTheme()
-    {
-        await OnThemeUpdated.InvokeAsync();
-    }
     async private Task ToggleNavMenu()
     {
         await OnNavBarVisibilityUpdated.InvokeAsync();
     }
+
+    async private Task ChangeTheme()
+    {
+        await OnThemeUpdated.InvokeAsync();
+    }
+    
     protected override void OnInitialized()
     {
         OnNavMenuChanged += async (o, e) =>

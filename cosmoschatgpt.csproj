@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Cosmos.Chat.GPT</RootNamespace>
+    <UserSecretsId>6afa4f85-1534-4aef-a172-42bf9fcb6e44</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="appsettings.json" />
