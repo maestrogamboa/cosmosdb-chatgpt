@@ -47,19 +47,21 @@ public class ChatService
 
         int index = _sessions.FindIndex(s => s.SessionId == sessionId);
 
-        if (_sessions[index].Messages.Count == 0)
-        {
-            // Messages are not cached, go read from database
-            //chatMessages = await _cosmosDbService.GetSessionMessagesAsync(sessionId);
+        chatMessages = _sessions[index].Messages;
 
-            // Cache results
-            _sessions[index].Messages = chatMessages;
-        }
-        else
-        {
+        //if (_sessions[index].Messages.Count == 0)
+        //{
+        // Messages are not cached, go read from database
+        //chatMessages = await _cosmosDbService.GetSessionMessagesAsync(sessionId);
+
+        // Cache results
+        //_sessions[index].Messages = chatMessages;
+        //}
+        //else
+        //{
             // Load from cache
-            chatMessages = _sessions[index].Messages;
-        }
+
+        //}
 
         return chatMessages;
     }
