@@ -96,6 +96,7 @@
     [Parameter]
     public static List<Session> ChatSessions { get; set; } = new();
 
+    
     [Parameter]
     public EventCallback OnThemeUpdated { get; set; }
 
@@ -113,7 +114,7 @@
     {
         await OnThemeUpdated.InvokeAsync();
     }
-
+    
     protected override void OnInitialized()
     {
         OnNavMenuChanged += async (o, e) =>
