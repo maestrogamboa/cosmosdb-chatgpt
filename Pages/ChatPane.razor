@@ -124,6 +124,11 @@
 </div>
 
 @code {
+     [Parameter]
+    public bool ShowHeader { get; set; }
+
+	[Parameter]
+    public EventCallback OnNavBarVisibilityUpdated { get; set; }
 
     [Parameter]
     public EventCallback<string> OnChatUpdated { get; set; }
@@ -146,7 +151,10 @@
             _messagesInChat = await chatService.GetChatSessionMessagesAsync(CurrentSession.SessionId);
         }
     }
-
+    async private Task ToggleNavMenu()
+    {
+        await OnNavBarVisibilityUpdated.InvokeAsync();
+    }
     protected override void OnInitialized()
     {
         _onMessagePosted += async (o, e) =>
