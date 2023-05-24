@@ -124,28 +124,28 @@
     private static event EventHandler<Session>? _onMessagePosted;
     private bool _loadingComplete;
 
-    public async Task ReloadChatMessagesAsync()
-    {
-        if (CurrentSession is not null)
-        {
-            _messagesInChat = await chatService.GetChatSessionMessagesAsync(CurrentSession.SessionId);
-        }
-    }
+    //public async Task ReloadChatMessagesAsync()
+    //{
+        //if (CurrentSession is not null)
+        //{
+            //_messagesInChat = await chatService.GetChatSessionMessagesAsync(CurrentSession.SessionId);
+        //}
+    //}
 
-    protected override void OnInitialized()
-    {
-        _onMessagePosted += async (o, e) =>
-        {
-            await this.InvokeAsync(async () =>
-            {
-                if (e.SessionId == CurrentSession?.SessionId)
-                {
-                    await this.ReloadChatMessagesAsync();
-                    this.StateHasChanged();
-                }
-            });
-        };
-    }
+    //protected override void OnInitialized()
+    //{
+        //_onMessagePosted += async (o, e) =>
+        //{
+            //await this.InvokeAsync(async () =>
+            //{
+                //if (e.SessionId == CurrentSession?.SessionId)
+                //{
+                    //await this.ReloadChatMessagesAsync();
+                    //this.StateHasChanged();
+                ///}
+            //});
+        //};
+    //}
 
     protected override async Task OnParametersSetAsync()
     {
