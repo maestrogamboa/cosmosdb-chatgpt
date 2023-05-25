@@ -104,7 +104,7 @@ public class ChatService
 
         _sessions.RemoveAt(index);
 
-        await _cosmosDbService.DeleteSessionAndMessagesAsync(sessionId);
+       // await _cosmosDbService.DeleteSessionAndMessagesAsync(sessionId);
     }
 
     /// <summary>
